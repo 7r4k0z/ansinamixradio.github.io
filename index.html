@@ -24,13 +24,14 @@
       background: radial-gradient(800px 400px at 50% 30%, #0f0f0f 0%, #000 55%, #000 100%);
       color:var(--txt);
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      padding: 18px;
     }
     .card{
       width:min(560px, 92vw);
       background: linear-gradient(180deg, var(--card2), var(--card));
       border:1px solid rgba(255,255,255,.06);
       border-radius: var(--radius);
-      padding: 26px 24px 22px;
+      padding: 24px 20px 18px;
       box-shadow: var(--shadow);
       text-align:center;
     }
@@ -39,7 +40,7 @@
       gap:14px;
       align-items:center;
       justify-content:center;
-      margin-bottom:12px;
+      margin-bottom:10px;
     }
     .logo{
       width:56px;height:56px;
@@ -53,32 +54,70 @@
     }
     .logo img{width:100%;height:100%;object-fit:cover;display:block}
     h1{margin:0;font-size:28px;letter-spacing:.2px}
-    .sub{margin:6px 0 18px;color:var(--accent);font-weight:600;opacity:.9}
+    .sub{margin:6px 0 14px;color:var(--accent);font-weight:700;opacity:.9}
+
+    .btnRow{
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      flex-wrap:wrap;
+      margin: 10px 0 12px;
+    }
     .btn{
       display:inline-flex;
       align-items:center;
       justify-content:center;
       gap:10px;
-      padding: 14px 22px;
+      padding: 13px 18px;
       border-radius: 999px;
       border:0;
       background: var(--accent);
       color:#001014;
-      font-weight:800;
+      font-weight:900;
       cursor:pointer;
       box-shadow: 0 10px 30px rgba(0,229,255,.20);
-      text-decoration:none;
+    }
+    .btn.secondary{
+      background: transparent;
+      color: rgba(255,255,255,.85);
+      border: 1px solid rgba(255,255,255,.16);
+      box-shadow:none;
+      font-weight:700;
     }
     .btn:active{ transform: translateY(1px); }
-    .tip{margin:14px 0 0;color:var(--muted);font-size:13px;line-height:1.35}
-    .links{margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-    .link{
-      color: rgba(255,255,255,.75);
-      font-size: 12.5px;
-      text-decoration:none;
-      border-bottom:1px dashed rgba(255,255,255,.25);
+
+    .playerBox{
+      margin: 10px auto 6px;
+      width: min(520px, 100%);
+      background: #000;
+      border-radius: 16px;
+      padding: 12px;
+      border:1px solid rgba(255,255,255,.10);
     }
-    .link:hover{ color:#fff; border-bottom-color:#fff; }
+    audio{
+      width: 100%;
+      outline: none;
+      filter: invert(1) hue-rotate(180deg) saturate(1.2); /* ayuda a verse claro en fondo negro */
+    }
+
+    .status{
+      margin: 8px 0 0;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+    .status strong{ color:#fff; }
+    .tip{
+      margin: 10px 0 0;
+      color: rgba(255,255,255,.65);
+      font-size: 12.5px;
+      line-height:1.35;
+    }
+    a.link{
+      color: var(--accent);
+      text-decoration:none;
+      border-bottom: 1px dashed rgba(0,229,255,.55);
+    }
   </style>
 </head>
 <body>
@@ -93,17 +132,68 @@
       </div>
     </div>
 
-    <a class="btn" href="./player.html" target="_blank" rel="noopener">▶ Escuchar en vivo</a>
+    <div class="btnRow">
+      <button class="btn" id="btnPlay">▶ Escuchar en vivo</button>
+      <button class="btn secondary" id="btnStop">■ Detener</button>
+    </div>
+
+    <div class="playerBox">
+      <!-- playsinline ayuda en móviles -->
+      <audio id="radio" controls playsinline preload="none"></audio>
+    </div>
+
+    <div class="status" id="status">
+      Estado: <strong>Listo</strong>
+      <br>
+      Stream: <a class="link" id="directLink" href="#" target="_blank" rel="noopener">abrir directo</a>
+    </div>
 
     <p class="tip">
-      Si abres desde WhatsApp o Facebook y no suena, toca “Abrir en Chrome”.
+      Si abres desde WhatsApp/Facebook y no suena, toca “Abrir en Chrome”.
     </p>
-
-    <div class="links">
-      <a class="link" href="http://uk21freenew.listen2myradio.com:11988/stream" target="_blank" rel="noopener">
-        Stream directo
-      </a>
-    </div>
   </main>
+
+  <script>
+    // 👉 PON AQUÍ TU STREAM ACTUAL
+    const STREAM_URL = "http://uk21freenew.listen2myradio.com:11988/stream";
+
+    const audio = document.getElementById("radio");
+    const btnPlay = document.getElementById("btnPlay");
+    const btnStop = document.getElementById("btnStop");
+    const statusEl = document.getElementById("status");
+    const directLink = document.getElementById("directLink");
+
+    directLink.href = STREAM_URL;
+    directLink.textContent = STREAM_URL;
+
+    function setStatus(msg){ statusEl.firstChild.textContent = "Estado: "; statusEl.querySelector("strong").textContent = msg; }
+
+    // Botón Play (en móvil se requiere interacción del usuario)
+    btnPlay.addEventListener("click", async () => {
+      try{
+        if (audio.src !== STREAM_URL) audio.src = STREAM_URL;
+        audio.load();
+
+        const p = audio.play();
+        if (p && typeof p.then === "function") await p;
+
+        setStatus("Reproduciendo");
+      }catch(e){
+        setStatus("No se pudo reproducir (abre directo)");
+        // En algunos teléfonos, el stream http puede bloquearse si estás en https o dentro de apps
+      }
+    });
+
+    btnStop.addEventListener("click", () => {
+      audio.pause();
+      audio.removeAttribute("src");
+      audio.load();
+      setStatus("Detenido");
+    });
+
+    audio.addEventListener("playing", () => setStatus("Reproduciendo"));
+    audio.addEventListener("pause", () => setStatus("Pausado"));
+    audio.addEventListener("error", () => setStatus("Error de reproducción"));
+  </script>
 </body>
 </html>
