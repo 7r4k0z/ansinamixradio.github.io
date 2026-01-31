@@ -1,95 +1,69 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ANSINA MX Radio</title>
-
-<style>
-  body {
-    margin: 0;
-    background: #000;
-    font-family: Arial, Helvetica, sans-serif;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-  }
-
-  .player {
-    background: #0b0b0b;
-    border-radius: 14px;
-    padding: 20px;
-    width: 340px;
-    box-shadow: 0 0 30px rgba(0,255,255,0.15);
-  }
-
-  .header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 15px;
-  }
-
-  .logo {
-    width: 56px;
-    height: 56px;
-    border-radius: 10px;
-  }
-
-  h1 {
-    font-size: 18px;
-    margin: 0;
-  }
-
-  .live {
-    color: #00ffd5;
-    font-size: 14px;
-  }
-
-  audio {
-    width: 100%;
-    margin-top: 10px;
-  }
-
-  .info {
-    font-size: 13px;
-    color: #aaa;
-    margin-top: 12px;
-  }
-
-  .info a {
-    color: #00ffd5;
-    word-break: break-all;
-  }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ANSINA MIX Radio</title>
+  <style>
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#000;
+      color:#fff;
+      font-family:system-ui, Arial, sans-serif;
+    }
+    .card{
+      background:#0b0b0b;
+      border-radius:18px;
+      padding:28px;
+      width:min(420px,90vw);
+      text-align:center;
+      box-shadow:0 0 40px rgba(0,0,0,.8);
+    }
+    img{
+      width:96px;
+      height:96px;
+      border-radius:16px;
+      margin-bottom:14px;
+    }
+    h1{margin:0;font-size:26px}
+    .sub{color:#00e5ff;margin:6px 0 18px}
+    a.play{
+      display:inline-block;
+      background:#00e5ff;
+      color:#000;
+      padding:14px 22px;
+      border-radius:999px;
+      font-size:18px;
+      font-weight:700;
+      text-decoration:none;
+    }
+    .note{
+      margin-top:16px;
+      font-size:14px;
+      color:#aaa;
+    }
+  </style>
 </head>
-
 <body>
+  <div class="card">
+    <img src="logo.png" alt="ANSINA MIX">
+    <h1>ANSINA MIX Radio</h1>
+    <div class="sub">En vivo • 24/7</div>
 
-<div class="player">
-  <div class="header">
-    <img src="logo.png" class="logo" alt="ANSINA MX Radio">
-    <div>
-      <h1>ANSINA MX Radio</h1>
-      <div class="live">En vivo · 24/7</div>
+    <a class="play"
+       href="http://uk21freenew.listen2myradio.com:11988/stream"
+       target="_blank">
+       ▶ Escuchar en vivo
+    </a>
+
+    <div class="note">
+      Si abres desde WhatsApp o Facebook y no suena,<br>
+      toca <b>“Abrir en Chrome”</b>.
     </div>
   </div>
-
-  <audio controls autoplay preload="none">
-    <source src="https://ansinamix.7r4k0z.workers.dev/stream" type="audio/mpeg">
-    Tu navegador no soporta audio en vivo.
-  </audio>
-
-  <div class="info">
-    🎵 Stream vía Cloudflare Worker<br>
-    <a href="https://ansinamix.7r4k0z.workers.dev/stream" target="_blank">
-      Abrir stream directo
-    </a><br><br>
-    ⚠️ Si entras desde WhatsApp o Facebook y no se oye, usa <b>“Abrir en Chrome”</b>
-  </div>
-</div>
-
 </body>
 </html>
