@@ -1,69 +1,109 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>ANSINA MIX Radio</title>
   <style>
+    :root{
+      --bg:#000;
+      --card:#0b0b0b;
+      --card2:#121212;
+      --txt:#eaeaea;
+      --muted:#9aa0a6;
+      --accent:#00e5ff;
+      --shadow: 0 20px 60px rgba(0,0,0,.55);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
     body{
       margin:0;
       min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:#000;
-      color:#fff;
-      font-family:system-ui, Arial, sans-serif;
+      display:grid;
+      place-items:center;
+      background: radial-gradient(800px 400px at 50% 30%, #0f0f0f 0%, #000 55%, #000 100%);
+      color:var(--txt);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
     .card{
-      background:#0b0b0b;
-      border-radius:18px;
-      padding:28px;
-      width:min(420px,90vw);
+      width:min(560px, 92vw);
+      background: linear-gradient(180deg, var(--card2), var(--card));
+      border:1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius);
+      padding: 26px 24px 22px;
+      box-shadow: var(--shadow);
       text-align:center;
-      box-shadow:0 0 40px rgba(0,0,0,.8);
     }
-    img{
-      width:96px;
-      height:96px;
-      border-radius:16px;
-      margin-bottom:14px;
+    .brand{
+      display:flex;
+      gap:14px;
+      align-items:center;
+      justify-content:center;
+      margin-bottom:12px;
     }
-    h1{margin:0;font-size:26px}
-    .sub{color:#00e5ff;margin:6px 0 18px}
-    a.play{
-      display:inline-block;
-      background:#00e5ff;
-      color:#000;
-      padding:14px 22px;
-      border-radius:999px;
-      font-size:18px;
-      font-weight:700;
+    .logo{
+      width:56px;height:56px;
+      border-radius:14px;
+      background:#111;
+      border:1px solid rgba(255,255,255,.08);
+      overflow:hidden;
+      display:grid;
+      place-items:center;
+      flex:0 0 auto;
+    }
+    .logo img{width:100%;height:100%;object-fit:cover;display:block}
+    h1{margin:0;font-size:28px;letter-spacing:.2px}
+    .sub{margin:6px 0 18px;color:var(--accent);font-weight:600;opacity:.9}
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding: 14px 22px;
+      border-radius: 999px;
+      border:0;
+      background: var(--accent);
+      color:#001014;
+      font-weight:800;
+      cursor:pointer;
+      box-shadow: 0 10px 30px rgba(0,229,255,.20);
       text-decoration:none;
     }
-    .note{
-      margin-top:16px;
-      font-size:14px;
-      color:#aaa;
+    .btn:active{ transform: translateY(1px); }
+    .tip{margin:14px 0 0;color:var(--muted);font-size:13px;line-height:1.35}
+    .links{margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+    .link{
+      color: rgba(255,255,255,.75);
+      font-size: 12.5px;
+      text-decoration:none;
+      border-bottom:1px dashed rgba(255,255,255,.25);
     }
+    .link:hover{ color:#fff; border-bottom-color:#fff; }
   </style>
 </head>
 <body>
-  <div class="card">
-    <img src="logo.png" alt="ANSINA MIX">
-    <h1>ANSINA MIX Radio</h1>
-    <div class="sub">En vivo • 24/7</div>
-
-    <a class="play"
-       href="http://uk21freenew.listen2myradio.com:11988/stream"
-       target="_blank">
-       ▶ Escuchar en vivo
-    </a>
-
-    <div class="note">
-      Si abres desde WhatsApp o Facebook y no suena,<br>
-      toca <b>“Abrir en Chrome”</b>.
+  <main class="card">
+    <div class="brand">
+      <div class="logo">
+        <img src="./ansina-mix.png" alt="ANSINA MIX" />
+      </div>
+      <div>
+        <h1>ANSINA MIX Radio</h1>
+        <div class="sub">En vivo • 24/7</div>
+      </div>
     </div>
-  </div>
+
+    <a class="btn" href="./player.html" target="_blank" rel="noopener">▶ Escuchar en vivo</a>
+
+    <p class="tip">
+      Si abres desde WhatsApp o Facebook y no suena, toca “Abrir en Chrome”.
+    </p>
+
+    <div class="links">
+      <a class="link" href="http://uk21freenew.listen2myradio.com:11988/stream" target="_blank" rel="noopener">
+        Stream directo
+      </a>
+    </div>
+  </main>
 </body>
 </html>
